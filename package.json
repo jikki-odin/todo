@@ -1,5 +1,5 @@
 {
-  "name": "webpack-standard",
+  "name": "todo",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jikki-san/webpack-standard.git"
+    "url": "git+https://github.com/jikki-odin/todo.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jikki-san/webpack-standard/issues"
+    "url": "https://github.com/jikki-odin/todo/issues"
   },
-  "homepage": "https://github.com/jikki-san/webpack-standard#readme",
+  "homepage": "https://github.com/jikki-odin/todo#readme",
   "description": "",
   "devDependencies": {
     "css-loader": "^7.1.2",
