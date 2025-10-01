@@ -39,4 +39,10 @@ export class ProjectController {
 
     content.appendChild(projectDiv);
   }
+
+  displayList() {
+    const sidebar = document.querySelector(".sidebar");
+
+    const projectList = document.createElement("ul");
+  }
 }

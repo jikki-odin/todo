@@ -5,14 +5,14 @@ import { Project, Todo } from "./types";
 const testTodo1 = new Todo(
   "do the thing",
   "you have to do it, Zhu Li...",
-  new Date(),
+  new Date("2025-10-02"),
   "High"
 );
 
 const testTodo2 = new Todo(
   "do the other thing",
   "you have to do this too...",
-  new Date(),
+  new Date("2025-10-03"),
   "Low"
 );
 
