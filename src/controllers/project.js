@@ -5,9 +5,7 @@ export class ProjectController {
     this.project = project;
   }
 
-  display() {
-    const content = document.querySelector(".content");
-
+  render() {
     const projectDiv = document.createElement("div");
     projectDiv.classList.add("project");
 
@@ -27,7 +25,6 @@ export class ProjectController {
     const todoList = document.createElement("ul");
     todoList.classList.add("project-todos");
 
-    // add rendered todo items
     this.project.todos.forEach((todo) => {
       const controller = new TodoController(todo);
       const todoItem = document.createElement("li");
@@ -37,12 +34,22 @@ export class ProjectController {
 
     projectDiv.appendChild(todoList);
 
-    content.appendChild(projectDiv);
+    return projectDiv;
   }
 
-  displayList() {
-    const sidebar = document.querySelector(".sidebar");
+  renderSummary() {
+    const projectListItem = document.createElement("li");
+    const projectButton = document.createElement("button");
+    projectButton.dataset.id = this.project.id;
+    projectButton.textContent = this.project.title;
 
-    const projectList = document.createElement("ul");
+    projectButton.addEventListener("click", () => {
+      const content = document.querySelector(".content");
+      content.replaceChildren();
+      content.appendChild(this.render());
+    });
+
+    projectListItem.appendChild(projectButton);
+    return projectListItem;
   }
 }

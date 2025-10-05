@@ -1,5 +1,5 @@
 import "./public/styling/styles.css";
-import { ProjectController } from "./controllers";
+import { AppController, ProjectController } from "./controllers";
 import { Project, Todo } from "./types";
 
 const testTodo1 = new Todo(
@@ -16,10 +16,15 @@ const testTodo2 = new Todo(
   "Low"
 );
 
+const defaultProject = new Project("Inbox", "Your default catch-all project.");
 const testProject = new Project("The Thing", "This is a big one!");
 testProject.addTodo(testTodo1);
 testProject.addTodo(testTodo2);
 
-console.log(testProject);
-const projectController = new ProjectController(testProject);
-projectController.display();
+const appController = new AppController();
+appController.addProject(defaultProject);
+appController.addProject(testProject);
+appController.renderProjectList();
+
+// const projectController = new ProjectController(testProject);
+// projectController.display();
