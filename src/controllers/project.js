@@ -1,55 +1,52 @@
-import { TodoController } from "./todo.js";
+import { Project } from "../types";
 
 export class ProjectController {
-  constructor(project) {
-    this.project = project;
+  constructor() {
+    this.projects = new Map();
+    this.currentId = 1;
+    this.selectedProject = null;
   }
 
-  render() {
-    const projectDiv = document.createElement("div");
-    projectDiv.classList.add("project");
+  // TODO: reconsider whether this is necessary
+  get projectList() {
+    // inefficient to recreate this each time, but we're not scaling here
+    const projectList = [];
 
-    const projectMetadata = document.createElement("div");
-    projectMetadata.classList.add("project-metadata");
+    for (const [_, project] of this.projects) {
+      projectList.push(project);
+    }
 
-    const projectTitleHeading = document.createElement("h2");
-    projectTitleHeading.textContent = this.project.title;
-    projectMetadata.appendChild(projectTitleHeading);
-
-    const projectDescriptionBlurb = document.createElement("p");
-    projectDescriptionBlurb.textContent = this.project.description;
-    projectMetadata.appendChild(projectDescriptionBlurb);
-
-    projectDiv.appendChild(projectMetadata);
-
-    const todoList = document.createElement("ul");
-    todoList.classList.add("project-todos");
-
-    this.project.todos.forEach((todo) => {
-      const controller = new TodoController(todo);
-      const todoItem = document.createElement("li");
-      todoItem.appendChild(controller.displaySummary());
-      todoList.appendChild(todoItem);
-    });
-
-    projectDiv.appendChild(todoList);
-
-    return projectDiv;
+    return projectList;
   }
 
-  renderSummary() {
-    const projectListItem = document.createElement("li");
-    const projectButton = document.createElement("button");
-    projectButton.dataset.id = this.project.id;
-    projectButton.textContent = this.project.title;
+  /**
+   * Adds a new project to the list
+   * @param {string} title - Project title
+   * @param {string} description - Project description
+   * @returns void
+   */
+  addProject(title, description) {
+    this.projects.set(
+      this.currentId,
+      new Project(this.currentId, title, description)
+    );
 
-    projectButton.addEventListener("click", () => {
-      const content = document.querySelector(".content");
-      content.replaceChildren();
-      content.appendChild(this.render());
-    });
+    this.currentId += 1;
+  }
 
-    projectListItem.appendChild(projectButton);
-    return projectListItem;
+  /**
+   * Removes a project from the list
+   * @param {number} id - The ID of the project to be deleted
+   */
+  removeProject(id) {
+    this.projects.delete(id);
+  }
+
+  /**
+   * Selects a project as the active project to render
+   * @param {number} id - The ID of the project to mark as active
+   */
+  selectProject(id) {
+    this.selectedProject = this.projects.get(id);
   }
 }
