@@ -19,7 +19,10 @@ export class TodoController {
       new Todo(this.currentId, title, description, dueDate, priority)
     );
 
+    const createdTodo = this.todos.get(this.currentId);
     this.currentId += 1;
+
+    return createdTodo;
   }
 
   removeTodo(id) {

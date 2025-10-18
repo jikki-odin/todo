@@ -1,14 +1,15 @@
 import closeCircle from "../../public/icons/close-circle.svg";
 
-export class NewProjectView {
+export class NewTodoView {
   constructor(appContainer, projectController) {
+    this.parentContainer = appContainer;
     this.container = document.createElement("dialog");
     this.container.classList.add("modal");
-    appContainer.appendChild(this.container);
     this.projectController = projectController;
   }
 
   render() {
+    this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
     const header = document.createElement("div");
     header.classList.add("modal-header");
@@ -16,23 +17,23 @@ export class NewProjectView {
 
     const headerText = document.createElement("h2");
     header.appendChild(headerText);
-    headerText.textContent = "New Project";
+    headerText.textContent = "New Todo";
 
     const closeButton = document.createElement("img");
     header.appendChild(closeButton);
     closeButton.src = closeCircle;
     closeButton.addEventListener("click", () => {
-      newProjectForm.reset();
+      newTodoForm.reset();
       this.container.close();
     });
 
-    const newProjectForm = document.createElement("form");
-    this.container.appendChild(newProjectForm);
-    newProjectForm.setAttribute("method", "post");
+    const newTodoForm = document.createElement("form");
+    this.container.appendChild(newTodoForm);
+    newTodoForm.setAttribute("method", "post");
 
     const titleElement = document.createElement("div");
     titleElement.classList.add("form-element");
-    newProjectForm.appendChild(titleElement);
+    newTodoForm.appendChild(titleElement);
 
     const titleLabel = document.createElement("label");
     titleLabel.setAttribute("for", "title");
@@ -43,13 +44,13 @@ export class NewProjectView {
     titleElement.appendChild(titleInput);
     titleInput.id = "title";
     titleInput.name = "title";
-    titleInput.placeholder = "My New Project";
+    titleInput.placeholder = "Whatcha wanna todo?";
     titleInput.required = true;
     titleInput.type = "text";
 
     const descriptionElement = document.createElement("div");
     descriptionElement.classList.add("form-element");
-    newProjectForm.appendChild(descriptionElement);
+    newTodoForm.appendChild(descriptionElement);
 
     const descriptionLabel = document.createElement("label");
     descriptionLabel.setAttribute("for", "description");
@@ -64,9 +65,43 @@ export class NewProjectView {
     descriptionInput.required = true;
     descriptionInput.type = "text";
 
+    // add dueDate picker
+    const dueDateElement = document.createElement("div");
+    newTodoForm.appendChild(dueDateElement);
+
+    const dueDateLabel = document.createElement("label");
+    dueDateLabel.setAttribute("for", "dueDate");
+    dueDateElement.appendChild(dueDateLabel);
+    dueDateLabel.textContent = "Due Date";
+
+    const dueDatePicker = document.createElement("input");
+    dueDateElement.appendChild(dueDatePicker);
+    dueDatePicker.name = "dueDate";
+    dueDatePicker.required = true;
+    dueDatePicker.type = "date";
+
+    const priorityElement = document.createElement("div");
+    newTodoForm.appendChild(priorityElement);
+
+    const priorityLabel = document.createElement("label");
+    priorityLabel.setAttribute("for", "priority");
+    priorityElement.appendChild(priorityLabel);
+    priorityLabel.textContent = "Priority";
+
+    const prioritySelector = document.createElement("select");
+    priorityElement.appendChild(prioritySelector);
+    prioritySelector.name = "priority";
+
+    for (const priorityValue of ["Low", "High", "Critical"]) {
+      const option = document.createElement("option");
+      prioritySelector.appendChild(option);
+      option.value = priorityValue;
+      option.textContent = priorityValue;
+    }
+
     const buttonElement = document.createElement("div");
     buttonElement.classList.add("form-buttons");
-    newProjectForm.appendChild(buttonElement);
+    newTodoForm.appendChild(buttonElement);
 
     const cancelButton = document.createElement("button");
     buttonElement.appendChild(cancelButton);
@@ -74,7 +109,7 @@ export class NewProjectView {
     cancelButton.textContent = "Cancel";
 
     cancelButton.addEventListener("click", () => {
-      newProjectForm.reset();
+      newTodoForm.reset();
       this.container.close();
     });
 
@@ -84,19 +119,20 @@ export class NewProjectView {
     submitButton.formMethod = "dialog";
     submitButton.textContent = "Create";
 
-    newProjectForm.addEventListener("submit", (event) => {
+    newTodoForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      const formData = new FormData(newProjectForm);
-      const projectData = Object.fromEntries(formData.entries());
+      const formData = new FormData(newTodoForm);
+      const todoData = Object.fromEntries(formData.entries());
 
-      const createdEvent = new CustomEvent("projectCreated", {
+      const createdEvent = new CustomEvent("todoCreated", {
         detail: {
-          ...projectData,
+          ...todoData,
+          projectId: this.projectController.selectedProject.id,
         },
       });
       document.dispatchEvent(createdEvent);
 
-      newProjectForm.reset();
+      newTodoForm.reset();
       this.container.close();
     });
 

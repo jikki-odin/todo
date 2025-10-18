@@ -4,6 +4,7 @@ import {
   ProjectDetailView,
   TodoDetailView,
   NewProjectView,
+  NewTodoView,
 } from ".";
 
 export class AppView {
@@ -62,6 +63,8 @@ export class AppView {
       appContainer,
       this.projectController
     );
+
+    this.newTodoModal = new NewTodoView(appContainer, this.projectController);
     this.registerEventHandlers();
   }
 
@@ -89,6 +92,22 @@ export class AppView {
       console.log(`Creating new project: ${title} (${description})...`);
       this.projectController.addProject(title, description);
       this.render();
+    });
+
+    document.addEventListener("newTodoRequested", () => {
+      this.newTodoModal.render();
+    });
+
+    document.addEventListener("todoCreated", (event) => {
+      const { title, description, dueDate, priority, projectId } = event.detail;
+      const todo = this.todoController.addTodo(
+        title,
+        description,
+        dueDate,
+        priority
+      );
+      this.projectController.addTodo(projectId, todo);
+      this.projectDetails.render();
     });
   }
 }

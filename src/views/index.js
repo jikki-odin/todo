@@ -1,5 +1,6 @@
 export { AppView } from "./app.js";
 export { NewProjectView } from "./modals";
+export { NewTodoView } from "./modals";
 export { ProjectDetailView } from "./projectDetails.js";
 export { ProjectListView } from "./projectList.js";
 export { TodoDetailView } from "./todoDetails.js";
