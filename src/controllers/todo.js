@@ -1,4 +1,4 @@
-import { Todo } from "../types";
+import { Todo } from "../models";
 
 export class TodoController {
   constructor() {

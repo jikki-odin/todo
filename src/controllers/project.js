@@ -1,4 +1,4 @@
-import { Project } from "../types";
+import { Project } from "../models";
 
 export class ProjectController {
   constructor() {
