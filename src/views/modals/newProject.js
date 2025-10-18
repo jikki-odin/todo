@@ -9,11 +9,10 @@ export class NewProjectView {
   }
 
   render() {
-    const modal = this.container;
-    modal.replaceChildren();
+    this.container.replaceChildren();
     const header = document.createElement("div");
     header.classList.add("modal-header");
-    modal.appendChild(header);
+    this.container.appendChild(header);
 
     const headerText = document.createElement("h2");
     header.appendChild(headerText);
@@ -24,11 +23,11 @@ export class NewProjectView {
     closeButton.src = closeCircle;
     closeButton.addEventListener("click", () => {
       newProjectForm.reset();
-      modal.close();
+      this.container.close();
     });
 
     const newProjectForm = document.createElement("form");
-    modal.appendChild(newProjectForm);
+    this.container.appendChild(newProjectForm);
     newProjectForm.setAttribute("method", "post");
 
     const titleElement = document.createElement("div");
@@ -74,7 +73,7 @@ export class NewProjectView {
 
     cancelButton.addEventListener("click", () => {
       newProjectForm.reset();
-      modal.close();
+      this.container.close();
     });
 
     const submitButton = document.createElement("button");
@@ -96,9 +95,9 @@ export class NewProjectView {
       document.dispatchEvent(createdEvent);
 
       newProjectForm.reset();
-      modal.close();
+      this.container.close();
     });
 
-    modal.showModal();
+    this.container.showModal();
   }
 }
