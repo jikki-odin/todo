@@ -1,2 +1,37 @@
-// TODO: decide on API and implement
-export class TodoController {}
+import { Todo } from "../types";
+
+export class TodoController {
+  constructor() {
+    // TODO: figure out the integration with projects
+    this.todos = new Map();
+    this.currentId = 1;
+    this.selectedTodo = null;
+  }
+
+  get(id) {
+    return this.todos.get(id);
+  }
+
+  // TODO: add documentation
+  addTodo(title, description, dueDate, priority) {
+    this.todos.set(
+      this.currentId,
+      new Todo(this.currentId, title, description, dueDate, priority)
+    );
+
+    this.currentId += 1;
+  }
+
+  removeTodo(id) {
+    this.todos.delete(id);
+  }
+
+  selectTodo(id) {
+    this.selectedTodo = this.todos.get(id);
+  }
+
+  toggleCompletion(id) {
+    const todo = this.todos.get(id);
+    todo.toggleCompletion();
+  }
+}

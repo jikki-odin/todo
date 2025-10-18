@@ -2,19 +2,24 @@ import { TodoListView } from "./todoList.js";
 
 export class ProjectDetailView {
   constructor(appContainer, projectController, todoController) {
+    this.parentContainer = appContainer;
     this.container = document.createElement("div");
     this.container.classList.add("project");
-    appContainer.appendChild(this.container);
 
     this.projectController = projectController;
     this.todoController = todoController;
 
-    this.todoList = new TodoListView(this.container, this.todoController);
+    this.todoList = new TodoListView(
+      this.container,
+      this.projectController,
+      this.todoController
+    );
   }
 
   render() {
-    const project = this.projectController.selectedProject;
+    this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
+    const project = this.projectController.selectedProject;
 
     const projectMetadata = document.createElement("div");
     projectMetadata.classList.add("project-metadata");
@@ -28,6 +33,6 @@ export class ProjectDetailView {
     projectMetadata.appendChild(projectDescriptionBlurb);
 
     this.container.appendChild(projectMetadata);
-    // this.todoList.render();
+    this.todoList.render();
   }
 }

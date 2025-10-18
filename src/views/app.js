@@ -20,6 +20,33 @@ export class AppView {
       "The second placeholder project"
     );
 
+    this.todoController.addTodo(
+      "Beep",
+      "Gotta beep",
+      new Date("10-18-2025"),
+      "High"
+    );
+    let todo = this.todoController.get(1);
+    this.projectController.addTodo(1, todo);
+
+    this.todoController.addTodo(
+      "Beep again",
+      "Gotta beep again",
+      new Date("10-19-2025"),
+      "High"
+    );
+    todo = this.todoController.get(2);
+    this.projectController.addTodo(1, todo);
+
+    this.todoController.addTodo(
+      "Beep once more",
+      "Never enough beep",
+      new Date("10-20-2025"),
+      "High"
+    );
+    todo = this.todoController.get(3);
+    this.projectController.addTodo(2, todo);
+
     // TODO: add views for new project/new todo modals
     this.projectList = new ProjectListView(
       appContainer,

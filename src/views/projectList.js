@@ -1,13 +1,14 @@
 export class ProjectListView {
   constructor(appContainer, projectController) {
+    this.parentContainer = appContainer;
     this.container = document.createElement("ul");
     this.container.classList.add("project-list");
-    appContainer.appendChild(this.container);
 
     this.projectController = projectController;
   }
 
   render() {
+    this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
 
     for (const project of this.projectController.projectList) {

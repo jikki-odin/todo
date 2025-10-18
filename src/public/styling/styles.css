@@ -46,3 +46,15 @@ header {
 .project-todos {
   list-style-type: none;
 }
+
+.todo-summary-item {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 6px;
+}
+
+.todo-details-button {
+  width: 24px;
+  height: 24px;
+}

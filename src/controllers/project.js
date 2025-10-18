@@ -49,4 +49,9 @@ export class ProjectController {
   selectProject(id) {
     this.selectedProject = this.projects.get(id);
   }
+
+  addTodo(id, todo) {
+    const project = this.projects.get(id);
+    project.addTodo(todo);
+  }
 }
