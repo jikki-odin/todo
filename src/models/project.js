@@ -13,9 +13,4 @@ export class Project {
   removeTodo(id) {
     this.todos.delete(id);
   }
-
-  // TODO: is a getter better?
-  getTodos() {
-    return this.todos;
-  }
 }

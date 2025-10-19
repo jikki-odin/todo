@@ -7,18 +7,6 @@ export class ProjectController {
     this.selectedProject = null;
   }
 
-  // TODO: reconsider whether this is necessary
-  get projectList() {
-    // inefficient to recreate this each time, but we're not scaling here
-    const projectList = [];
-
-    for (const [_, project] of this.projects) {
-      projectList.push(project);
-    }
-
-    return projectList;
-  }
-
   /**
    * Adds a new project to the list
    * @param {string} title - Project title
@@ -51,6 +39,11 @@ export class ProjectController {
    */
   selectProject(id) {
     this.selectedProject = this.projects.get(id);
+  }
+
+  getTodos(id) {
+    const project = this.projects.get(id);
+    return project.todos;
   }
 
   addTodo(id, todo) {

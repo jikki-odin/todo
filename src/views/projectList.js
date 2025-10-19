@@ -11,16 +11,16 @@ export class ProjectListView {
     this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
 
-    for (const project of this.projectController.projectList) {
+    for (const [id, project] of this.projectController.projects) {
       const projectListItem = document.createElement("li");
       const projectButton = document.createElement("button");
 
-      projectButton.dataset.id = project.id;
+      projectButton.dataset.id = id;
       projectButton.textContent = project.title;
 
       projectButton.addEventListener("click", () => {
         const event = new CustomEvent("projectSelected", {
-          detail: { projectId: project.id },
+          detail: { projectId: id },
         });
         document.dispatchEvent(event);
       });

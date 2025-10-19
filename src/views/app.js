@@ -44,7 +44,11 @@ export class AppView {
     // TODO: handle static content here (e.g. nav bar) - add a layer higher
     // so modals don't get removed
     this.projectList.render();
-    this.projectDetails.render();
+    if (!!this.projectController.selectedProject) {
+      this.projectDetails.render();
+    } else {
+      this.projectDetails.clear();
+    }
   }
 
   registerEventHandlers() {
@@ -62,6 +66,19 @@ export class AppView {
       const { title, description } = event.detail;
       const project = this.projectController.addProject(title, description);
       this.projectController.selectProject(project.id);
+      this.render();
+    });
+
+    document.addEventListener("projectDeletionRequested", (event) => {
+      const { id } = event.detail;
+      const todosToDelete = this.projectController.getTodos(id);
+
+      for (const [todoId, _] of todosToDelete) {
+        this.todoController.removeTodo(todoId);
+      }
+
+      this.projectController.removeProject(id);
+      this.projectController.selectedProject = null;
       this.render();
     });
 
