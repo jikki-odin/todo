@@ -25,6 +25,11 @@ export class TodoController {
     return createdTodo;
   }
 
+  updateTodo(id, title, description, dueDate, priority) {
+    const todo = this.todos.get(id);
+    todo.update(title, description, dueDate, priority);
+  }
+
   removeTodo(id) {
     this.todos.delete(id);
   }

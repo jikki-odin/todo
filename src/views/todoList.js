@@ -6,7 +6,7 @@ export class TodoListView {
   constructor(projectContainer, projectController, todoController) {
     this.parentContainer = projectContainer;
     this.container = document.createElement("div");
-    // TODO: consolidate/hoist controller logic via event arch?
+    // TODO: consider consolidating/hoisting controller logic via event arch
     this.projectController = projectController;
     this.todoController = todoController;
   }
@@ -14,14 +14,6 @@ export class TodoListView {
   render() {
     this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
-
-    // is a header necessary here?
-    const header = document.createElement("div");
-    this.container.appendChild(header);
-
-    const headerText = document.createElement("h3");
-    header.appendChild(headerText);
-    headerText.textContent = "Todos";
 
     const todoList = document.createElement("ul");
     todoList.classList.add("project-todos");
@@ -54,10 +46,11 @@ export class TodoListView {
       const todoOptionsButton = document.createElement("img");
       todoOptionsButton.classList.add("todo-details-button");
       todoOptionsButton.src = kebabMenu;
-
-      // TODO: add handler for kebab menu expansion
       todoOptionsButton.addEventListener("click", () => {
-        console.log(`Clicked options for todo ${todo.id} (${todo.title})...`);
+        const event = new CustomEvent("todoSelected", {
+          detail: { id: todo.id },
+        });
+        document.dispatchEvent(event);
       });
 
       todoCard.appendChild(todoOptionsButton);
@@ -70,29 +63,8 @@ export class TodoListView {
     newTodoButton.textContent = "+ Add a new task";
     newTodoButton.addEventListener("click", () => {
       console.log("Blue-ski-doo, creating new todo...");
-      // TODO: add logic for a custom event to render the new project modal
       const event = new CustomEvent("newTodoRequested");
       document.dispatchEvent(event);
     });
-  }
-
-  displaySummary() {
-    const todoTitle = document.createElement("h3");
-    todoTitle.classList.add("todo-title");
-    todoTitle.textContent = this.todo.title;
-    todoCard.appendChild(todoTitle);
-
-    const todoDueDate = document.createElement("div");
-    todoDueDate.classList.add("todo-due-date");
-    todoDueDate.textContent = formatRelative(this.todo.dueDate, new Date());
-    todoCard.appendChild(todoDueDate);
-
-    const todoDeleteButton = document.createElement("button");
-    todoDeleteButton.classList.add("todo-delete");
-    todoDeleteButton.textContent = "x";
-    // TODO: add handler for deletion
-    todoCard.appendChild(todoDeleteButton);
-
-    return todoCard;
   }
 }

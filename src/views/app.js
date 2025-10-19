@@ -3,6 +3,7 @@ import {
   ProjectListView,
   ProjectDetailView,
   TodoDetailView,
+  TodoOptionsView,
   NewProjectView,
   NewTodoView,
 } from ".";
@@ -13,6 +14,8 @@ export class AppView {
     this.projectController = new ProjectController();
     this.todoController = new TodoController();
 
+    // TODO: seed the Inbox project
+
     this.projectList = new ProjectListView(
       appContainer,
       this.projectController
@@ -22,13 +25,18 @@ export class AppView {
       this.projectController,
       this.todoController
     );
-    this.todoDetails = new TodoDetailView(appContainer, this.todoController);
+    this.todoDetails = new TodoDetailView(
+      appContainer,
+      this.todoController,
+      this.projectController
+    );
     this.newProjectModal = new NewProjectView(
       appContainer,
       this.projectController
     );
 
     this.newTodoModal = new NewTodoView(appContainer, this.projectController);
+    this.todoOptionsModal = new TodoOptionsView(appContainer);
     this.registerEventHandlers();
   }
 
@@ -36,7 +44,7 @@ export class AppView {
     // TODO: handle static content here (e.g. nav bar)
     this.projectList.render();
     this.projectDetails.render();
-    this.todoDetails.render();
+    // this.todoDetails.render();
   }
 
   registerEventHandlers() {
@@ -59,6 +67,13 @@ export class AppView {
       this.render();
     });
 
+    document.addEventListener("todoSelected", (event) => {
+      const { id } = event.detail;
+      console.log(`Todo ${id} selected`);
+      this.todoController.selectTodo(id);
+      this.todoOptionsModal.render();
+    });
+
     document.addEventListener("newTodoRequested", () => {
       this.newTodoModal.render();
     });
@@ -73,6 +88,27 @@ export class AppView {
       );
       this.projectController.addTodo(projectId, todo);
       this.projectDetails.render();
+    });
+
+    document.addEventListener("todoDetailsRequested", () => {
+      console.log(
+        `Details requested for todo ${this.todoController.selectedTodo.id}...`
+      );
+      this.todoDetails.render();
+    });
+
+    document.addEventListener("todoDeletionRequested", () => {
+      console.log(
+        `Deletion requested for todo ${this.todoController.selectedTodo.id}...`
+      );
+      // this.todoDetails.render();
+    });
+
+    document.addEventListener("todoUpdated", (event) => {
+      const { id, title, description, dueDate, priority, projectId } =
+        event.detail;
+      this.todoController.updateTodo(id, title, description, dueDate, priority);
+      this.render();
     });
   }
 }
