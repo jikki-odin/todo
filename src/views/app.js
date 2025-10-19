@@ -9,46 +9,10 @@ import {
 
 export class AppView {
   constructor(appContainer) {
+    this.container = appContainer;
     this.projectController = new ProjectController();
     this.todoController = new TodoController();
 
-    this.projectController.addProject(
-      "Test 1",
-      "The first placeholder project"
-    );
-    this.projectController.addProject(
-      "Test 2",
-      "The second placeholder project"
-    );
-
-    this.todoController.addTodo(
-      "Beep",
-      "Gotta beep",
-      new Date("10-18-2025"),
-      "High"
-    );
-    let todo = this.todoController.get(1);
-    this.projectController.addTodo(1, todo);
-
-    this.todoController.addTodo(
-      "Beep again",
-      "Gotta beep again",
-      new Date("10-19-2025"),
-      "High"
-    );
-    todo = this.todoController.get(2);
-    this.projectController.addTodo(1, todo);
-
-    this.todoController.addTodo(
-      "Beep once more",
-      "Never enough beep",
-      new Date("10-20-2025"),
-      "High"
-    );
-    todo = this.todoController.get(3);
-    this.projectController.addTodo(2, todo);
-
-    // TODO: add views for new project/new todo modals
     this.projectList = new ProjectListView(
       appContainer,
       this.projectController
@@ -71,8 +35,8 @@ export class AppView {
   render() {
     // TODO: handle static content here (e.g. nav bar)
     this.projectList.render();
-    // this.projectDetails.render();
-    // this.todoDetails.render();
+    this.projectDetails.render();
+    this.todoDetails.render();
   }
 
   registerEventHandlers() {
@@ -90,7 +54,8 @@ export class AppView {
     document.addEventListener("projectCreated", (event) => {
       const { title, description } = event.detail;
       console.log(`Creating new project: ${title} (${description})...`);
-      this.projectController.addProject(title, description);
+      const project = this.projectController.addProject(title, description);
+      this.projectController.selectProject(project.id);
       this.render();
     });
 

@@ -31,7 +31,9 @@ export class ProjectController {
       new Project(this.currentId, title, description)
     );
 
+    const createdProject = this.projects.get(this.currentId);
     this.currentId += 1;
+    return createdProject;
   }
 
   /**
@@ -39,6 +41,7 @@ export class ProjectController {
    * @param {number} id - The ID of the project to be deleted
    */
   removeProject(id) {
+    // TODO: ensure connected todos get deleted as well
     this.projects.delete(id);
   }
 
