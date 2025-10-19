@@ -41,16 +41,15 @@ export class AppView {
   }
 
   render() {
-    // TODO: handle static content here (e.g. nav bar)
+    // TODO: handle static content here (e.g. nav bar) - add a layer higher
+    // so modals don't get removed
     this.projectList.render();
     this.projectDetails.render();
-    // this.todoDetails.render();
   }
 
   registerEventHandlers() {
     document.addEventListener("projectSelected", (event) => {
       const { projectId: id } = event.detail;
-      console.log(`Project ${id} selected`);
       this.projectController.selectProject(id);
       this.projectDetails.render();
     });
@@ -61,7 +60,6 @@ export class AppView {
 
     document.addEventListener("projectCreated", (event) => {
       const { title, description } = event.detail;
-      console.log(`Creating new project: ${title} (${description})...`);
       const project = this.projectController.addProject(title, description);
       this.projectController.selectProject(project.id);
       this.render();
@@ -69,7 +67,6 @@ export class AppView {
 
     document.addEventListener("todoSelected", (event) => {
       const { id } = event.detail;
-      console.log(`Todo ${id} selected`);
       this.todoController.selectTodo(id);
       this.todoOptionsModal.render();
     });
@@ -91,17 +88,15 @@ export class AppView {
     });
 
     document.addEventListener("todoDetailsRequested", () => {
-      console.log(
-        `Details requested for todo ${this.todoController.selectedTodo.id}...`
-      );
       this.todoDetails.render();
     });
 
     document.addEventListener("todoDeletionRequested", () => {
-      console.log(
-        `Deletion requested for todo ${this.todoController.selectedTodo.id}...`
-      );
-      // this.todoDetails.render();
+      const projectId = this.projectController.selectedProject.id;
+      const todoId = this.todoController.selectedTodo.id;
+      this.projectController.removeTodo(projectId, todoId);
+      this.todoController.removeTodo(todoId);
+      this.render();
     });
 
     document.addEventListener("todoUpdated", (event) => {

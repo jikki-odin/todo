@@ -4,7 +4,7 @@ export class Todo {
     this.title = title;
     this.description = description;
     // TODO: double-check date formatting
-    this.dueDate = dueDate;
+    this.dueDate = new Date(dueDate);
     this.priority = priority;
     this.isComplete = false;
   }

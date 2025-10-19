@@ -3,11 +3,15 @@ export class Project {
     this.id = id;
     this.title = title;
     this.description = description;
-    this.todos = [];
+    this.todos = new Map();
   }
 
   addTodo(todo) {
-    this.todos.push(todo);
+    this.todos.set(todo.id, todo);
+  }
+
+  removeTodo(id) {
+    this.todos.delete(id);
   }
 
   // TODO: is a getter better?

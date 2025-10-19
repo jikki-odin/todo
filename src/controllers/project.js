@@ -57,4 +57,9 @@ export class ProjectController {
     const project = this.projects.get(id);
     project.addTodo(todo);
   }
+
+  removeTodo(id, todoId) {
+    const project = this.projects.get(id);
+    project.removeTodo(todoId);
+  }
 }

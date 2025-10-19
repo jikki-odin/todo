@@ -19,20 +19,20 @@ export class TodoListView {
     todoList.classList.add("project-todos");
     this.container.appendChild(todoList);
 
-    for (const todo of this.projectController.selectedProject.todos) {
+    for (const [id, todo] of this.projectController.selectedProject.todos) {
       const todoListItem = document.createElement("li");
       todoList.appendChild(todoListItem);
       const todoCard = document.createElement("div");
       todoCard.classList.add("todo-summary-item");
       todoListItem.appendChild(todoCard);
-      todoCard.dataset.id = todo.id;
+      todoCard.dataset.id = id;
 
       const todoComplete = document.createElement("input");
       todoCard.appendChild(todoComplete);
       todoComplete.type = "checkbox";
 
       todoComplete.addEventListener("click", () => {
-        this.todoController.toggleCompletion(todo.id);
+        this.todoController.toggleCompletion(id);
       });
 
       const todoTitle = document.createElement("h3");
@@ -48,7 +48,7 @@ export class TodoListView {
       todoOptionsButton.src = kebabMenu;
       todoOptionsButton.addEventListener("click", () => {
         const event = new CustomEvent("todoSelected", {
-          detail: { id: todo.id },
+          detail: { id },
         });
         document.dispatchEvent(event);
       });
