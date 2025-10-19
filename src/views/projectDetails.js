@@ -30,16 +30,18 @@ export class ProjectDetailView {
     projectMetadata.classList.add("project-metadata");
     projectHeader.appendChild(projectMetadata);
 
-    const deleteIcon = document.createElement("img");
-    projectHeader.appendChild(deleteIcon);
-    deleteIcon.src = trashCan;
+    if (project.title !== "Inbox") {
+      const deleteIcon = document.createElement("img");
+      projectHeader.appendChild(deleteIcon);
+      deleteIcon.src = trashCan;
 
-    deleteIcon.addEventListener("click", () => {
-      const event = new CustomEvent("projectDeletionRequested", {
-        detail: { id: this.projectController.selectedProject.id },
+      deleteIcon.addEventListener("click", () => {
+        const event = new CustomEvent("projectDeletionRequested", {
+          detail: { id: this.projectController.selectedProject.id },
+        });
+        document.dispatchEvent(event);
       });
-      document.dispatchEvent(event);
-    });
+    }
 
     const projectTitleHeading = document.createElement("h2");
     projectTitleHeading.textContent = project.title;

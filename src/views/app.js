@@ -14,8 +14,6 @@ export class AppView {
     this.projectController = new ProjectController();
     this.todoController = new TodoController();
 
-    // TODO: seed the Inbox project
-
     this.projectList = new ProjectListView(
       appContainer,
       this.projectController
@@ -78,7 +76,7 @@ export class AppView {
       }
 
       this.projectController.removeProject(id);
-      this.projectController.selectedProject = null;
+      this.projectController.selectProject(1);
       this.render();
     });
 

@@ -4,7 +4,10 @@ export class ProjectController {
   constructor() {
     this.projects = new Map();
     this.currentId = 1;
-    this.selectedProject = null;
+
+    this.addProject("Inbox", "Your default tadoo list!");
+
+    this.selectedProject = this.projects.get(1);
   }
 
   /**
