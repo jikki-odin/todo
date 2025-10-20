@@ -30,6 +30,12 @@ export class TodoDetailView {
       this.container.replaceChildren();
     });
 
+    const idInput = document.createElement("input");
+    idInput.type = "hidden";
+    idInput.name = "id";
+    idInput.value = selectedTodo.id;
+    todoDetailsForm.appendChild(idInput);
+
     const titleElement = document.createElement("div");
     titleElement.classList.add("form-element");
     todoDetailsForm.appendChild(titleElement);
@@ -65,6 +71,29 @@ export class TodoDetailView {
     descriptionInput.type = "text";
 
     // TODO: add project dropdown
+    const projectElement = document.createElement("div");
+    projectElement.classList.add("form-element");
+    todoDetailsForm.appendChild(projectElement);
+
+    const projectLabel = document.createElement("label");
+    projectLabel.setAttribute("for", "projectId");
+    projectElement.appendChild(projectLabel);
+    projectLabel.textContent = "Project";
+
+    const projectSelector = document.createElement("select");
+    projectElement.appendChild(projectSelector);
+    projectSelector.name = "projectId";
+
+    for (const [id, project] of this.projectController.projects) {
+      const option = document.createElement("option");
+      projectSelector.appendChild(option);
+      option.value = id;
+      option.textContent = project.title;
+
+      if (id === this.projectController.selectedProject.id) {
+        option.selected = true;
+      }
+    }
 
     const dueDateElement = document.createElement("div");
     todoDetailsForm.appendChild(dueDateElement);
@@ -127,12 +156,12 @@ export class TodoDetailView {
       event.preventDefault();
       const formData = new FormData(todoDetailsForm);
       const todoData = Object.fromEntries(formData.entries());
+      todoData.id = parseInt(todoData.id);
+      todoData.projectId = parseInt(todoData.projectId);
 
       const createdEvent = new CustomEvent("todoUpdated", {
         detail: {
           ...todoData,
-          id: selectedTodo.id,
-          projectId: this.projectController.selectedProject.id,
         },
       });
       document.dispatchEvent(createdEvent);

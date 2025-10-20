@@ -54,6 +54,13 @@ export class ProjectController {
     project.addTodo(todo);
   }
 
+  moveTodo(todoId, oldProjectId, newProjectId) {
+    const todos = this.getTodos(oldProjectId);
+    const todoToMove = todos.get(todoId);
+    this.removeTodo(oldProjectId, todoId);
+    this.addTodo(newProjectId, todoToMove);
+  }
+
   removeTodo(id, todoId) {
     const project = this.projects.get(id);
     project.removeTodo(todoId);

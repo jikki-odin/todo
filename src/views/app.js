@@ -117,6 +117,10 @@ export class AppView {
     document.addEventListener("todoUpdated", (event) => {
       const { id, title, description, dueDate, priority, projectId } =
         event.detail;
+      const oldProjectId = this.projectController.selectedProject.id;
+      if (projectId !== oldProjectId) {
+        this.projectController.moveTodo(id, oldProjectId, projectId);
+      }
       this.todoController.updateTodo(id, title, description, dueDate, priority);
       this.render();
     });
