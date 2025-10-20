@@ -1,12 +1,12 @@
 export class Todo {
-  constructor(id, title, description, dueDate, priority) {
+  constructor(id, title, description, dueDate, priority, isComplete = false) {
     this.id = id;
     this.title = title;
     this.description = description;
-    // TODO: double-check date formatting
+    // TODO: check localization handling
     this.dueDate = new Date(dueDate);
     this.priority = priority;
-    this.isComplete = false;
+    this.isComplete = isComplete;
   }
 
   update(title, description, dueDate, priority) {

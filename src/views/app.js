@@ -9,10 +9,10 @@ import {
 } from ".";
 
 export class AppView {
-  constructor(appContainer) {
+  constructor(appContainer, projectController, todoController) {
     this.container = appContainer;
-    this.projectController = new ProjectController();
-    this.todoController = new TodoController();
+    this.projectController = projectController;
+    this.todoController = todoController;
 
     this.projectList = new ProjectListView(
       appContainer,
@@ -122,6 +122,7 @@ export class AppView {
         this.projectController.moveTodo(id, oldProjectId, projectId);
       }
       this.todoController.updateTodo(id, title, description, dueDate, priority);
+      this.projectController.saveToStorage();
       this.render();
     });
   }

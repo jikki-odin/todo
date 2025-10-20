@@ -31,8 +31,13 @@ export class TodoListView {
       todoCard.appendChild(todoComplete);
       todoComplete.type = "checkbox";
 
+      if (todo.isComplete) {
+        todoComplete.checked = true;
+      }
+
       todoComplete.addEventListener("click", () => {
         this.todoController.toggleCompletion(id);
+        this.projectController.saveToStorage();
       });
 
       const todoTitle = document.createElement("h3");

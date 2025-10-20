@@ -8,6 +8,19 @@ export class TodoController {
     this.selectedTodo = null;
   }
 
+  loadFromStorage(projectController) {
+    let maxId = 0;
+
+    for (const [_, project] of projectController.projects) {
+      for (const [todoId, todo] of project.todos) {
+        this.todos.set(todoId, todo);
+        maxId = Math.max(maxId, todoId);
+      }
+    }
+
+    this.currentId = maxId + 1;
+  }
+
   get(id) {
     return this.todos.get(id);
   }
