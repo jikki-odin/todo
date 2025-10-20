@@ -18,6 +18,7 @@ export class ProjectDetailView {
   }
 
   render() {
+    // TODO: buttons should be inactive on this when a todo is being edited
     this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
     const project = this.projectController.selectedProject;
@@ -32,6 +33,7 @@ export class ProjectDetailView {
 
     if (project.title !== "Inbox") {
       const deleteIcon = document.createElement("img");
+      deleteIcon.classList.add("logo");
       projectHeader.appendChild(deleteIcon);
       deleteIcon.src = trashCan;
 

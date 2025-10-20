@@ -20,6 +20,7 @@ export class NewTodoView {
     headerText.textContent = "New Todo";
 
     const closeButton = document.createElement("img");
+    closeButton.classList.add("logo");
     header.appendChild(closeButton);
     closeButton.src = closeCircle;
     closeButton.addEventListener("click", () => {
@@ -44,7 +45,7 @@ export class NewTodoView {
     titleElement.appendChild(titleInput);
     titleInput.id = "title";
     titleInput.name = "title";
-    titleInput.placeholder = "Whatcha wanna todo?";
+    titleInput.placeholder = "Whatcha wanna tadoo?";
     titleInput.required = true;
     titleInput.type = "text";
 
@@ -67,6 +68,7 @@ export class NewTodoView {
 
     // add dueDate picker
     const dueDateElement = document.createElement("div");
+    dueDateElement.classList.add("form-element");
     newTodoForm.appendChild(dueDateElement);
 
     const dueDateLabel = document.createElement("label");
@@ -76,11 +78,13 @@ export class NewTodoView {
 
     const dueDatePicker = document.createElement("input");
     dueDateElement.appendChild(dueDatePicker);
+    dueDatePicker.id = "dueDate";
     dueDatePicker.name = "dueDate";
     dueDatePicker.required = true;
     dueDatePicker.type = "date";
 
     const priorityElement = document.createElement("div");
+    priorityElement.classList.add("form-element");
     newTodoForm.appendChild(priorityElement);
 
     const priorityLabel = document.createElement("label");
@@ -90,6 +94,7 @@ export class NewTodoView {
 
     const prioritySelector = document.createElement("select");
     priorityElement.appendChild(prioritySelector);
+    prioritySelector.id = "priority";
     prioritySelector.name = "priority";
 
     for (const priorityValue of ["Low", "High", "Critical"]) {

@@ -1,8 +1,8 @@
 export class ProjectListView {
   constructor(appContainer, projectController) {
     this.parentContainer = appContainer;
-    this.container = document.createElement("ul");
-    this.container.classList.add("project-list");
+    this.container = document.createElement("div");
+    this.container.classList.add("sidebar");
 
     this.projectController = projectController;
   }
@@ -10,6 +10,10 @@ export class ProjectListView {
   render() {
     this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
+
+    const projectList = document.createElement("ul");
+    projectList.classList.add("project-list");
+    this.container.appendChild(projectList);
 
     for (const [id, project] of this.projectController.projects) {
       const projectListItem = document.createElement("li");
@@ -26,20 +30,19 @@ export class ProjectListView {
       });
 
       projectListItem.appendChild(projectButton);
-      this.container.appendChild(projectListItem);
+      projectList.appendChild(projectListItem);
     }
 
     const newProjectListItem = document.createElement("li");
     const newProjectButton = document.createElement("button");
-    newProjectButton.textContent = "+ Add a new project";
+    newProjectButton.textContent = "+";
     newProjectButton.addEventListener("click", () => {
       console.log("Creating new project...");
-      // TODO: add logic for a custom event to render the new project modal
       const event = new CustomEvent("newProjectRequested");
       document.dispatchEvent(event);
     });
 
     newProjectListItem.appendChild(newProjectButton);
-    this.container.appendChild(newProjectListItem);
+    projectList.appendChild(newProjectListItem);
   }
 }

@@ -7,7 +7,6 @@ export class TodoDetailView {
     this.parentContainer = appContainer;
     this.container = document.createElement("div");
     this.container.classList.add("todo-details");
-    appContainer.appendChild(this.container);
 
     this.todoController = todoController;
     this.projectController = projectController;
@@ -18,17 +17,28 @@ export class TodoDetailView {
     this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
 
+    const header = document.createElement("div");
+    header.classList.add("todo-details-header");
+    this.container.appendChild(header);
+
+    const headerText = document.createElement("h2");
+    header.appendChild(headerText);
+    headerText.textContent = "Edit Tadoo";
+
+    const closeButton = document.createElement("img");
+    closeButton.classList.add("logo");
+    header.appendChild(closeButton);
+    closeButton.src = closeCircle;
+    closeButton.addEventListener("click", () => {
+      this.container.replaceChildren();
+      this.parentContainer.removeChild(this.container);
+    });
+
     const todoDetailsForm = document.createElement("form");
     this.container.appendChild(todoDetailsForm);
     todoDetailsForm.setAttribute("method", "post");
 
     // TODO: reformat in separate header
-    const closeButton = document.createElement("img");
-    todoDetailsForm.appendChild(closeButton);
-    closeButton.src = closeCircle;
-    closeButton.addEventListener("click", () => {
-      this.container.replaceChildren();
-    });
 
     const idInput = document.createElement("input");
     idInput.type = "hidden";
@@ -96,6 +106,7 @@ export class TodoDetailView {
     }
 
     const dueDateElement = document.createElement("div");
+    dueDateElement.classList.add("form-element");
     todoDetailsForm.appendChild(dueDateElement);
 
     const dueDateLabel = document.createElement("label");
@@ -111,6 +122,7 @@ export class TodoDetailView {
     dueDatePicker.type = "date";
 
     const priorityElement = document.createElement("div");
+    priorityElement.classList.add("form-element");
     todoDetailsForm.appendChild(priorityElement);
 
     const priorityLabel = document.createElement("label");
@@ -144,6 +156,7 @@ export class TodoDetailView {
 
     cancelButton.addEventListener("click", () => {
       this.container.replaceChildren();
+      this.parentContainer.removeChild(this.container);
     });
 
     const saveButton = document.createElement("button");
@@ -166,6 +179,7 @@ export class TodoDetailView {
       });
       document.dispatchEvent(createdEvent);
       this.container.replaceChildren();
+      this.parentContainer.removeChild(this.container);
     });
   }
 }

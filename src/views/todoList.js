@@ -1,4 +1,4 @@
-import { formatRelative } from "date-fns";
+import { formatDistance } from "date-fns";
 
 import kebabMenu from "../public/icons/kebab-menu.svg";
 
@@ -6,7 +6,7 @@ export class TodoListView {
   constructor(projectContainer, projectController, todoController) {
     this.parentContainer = projectContainer;
     this.container = document.createElement("div");
-    // TODO: consider consolidating/hoisting controller logic via event arch
+    this.container.classList.add("todo-list");
     this.projectController = projectController;
     this.todoController = todoController;
   }
@@ -20,6 +20,7 @@ export class TodoListView {
     this.container.appendChild(todoList);
 
     for (const [id, todo] of this.projectController.selectedProject.todos) {
+      // TODO: change the text color based on dueDate
       const todoListItem = document.createElement("li");
       todoList.appendChild(todoListItem);
       const todoCard = document.createElement("div");
@@ -27,8 +28,12 @@ export class TodoListView {
       todoListItem.appendChild(todoCard);
       todoCard.dataset.id = id;
 
+      const todoCardContent = document.createElement("div");
+      todoCardContent.classList.add("todo-summary-content");
+      todoCard.appendChild(todoCardContent);
+
       const todoComplete = document.createElement("input");
-      todoCard.appendChild(todoComplete);
+      todoCardContent.appendChild(todoComplete);
       todoComplete.type = "checkbox";
 
       if (todo.isComplete) {
@@ -41,21 +46,23 @@ export class TodoListView {
       });
 
       const todoTitle = document.createElement("h3");
-      todoCard.appendChild(todoTitle);
+      todoCardContent.appendChild(todoTitle);
       todoTitle.textContent = todo.title;
 
       const todoDueDate = document.createElement("div");
-      todoCard.appendChild(todoDueDate);
-      todoDueDate.textContent = formatRelative(todo.dueDate, new Date());
+      todoCardContent.appendChild(todoDueDate);
+      todoDueDate.textContent = formatDistance(todo.dueDate, new Date(), {
+        addSuffix: true,
+      });
 
       const todoOptionsButton = document.createElement("img");
       todoOptionsButton.classList.add("todo-details-button");
       todoOptionsButton.src = kebabMenu;
-      todoOptionsButton.addEventListener("click", () => {
-        const event = new CustomEvent("todoSelected", {
-          detail: { id },
+      todoOptionsButton.addEventListener("click", (event) => {
+        const newEvent = new CustomEvent("todoSelected", {
+          detail: { id, button: event.target },
         });
-        document.dispatchEvent(event);
+        document.dispatchEvent(newEvent);
       });
 
       todoCard.appendChild(todoOptionsButton);
@@ -64,6 +71,7 @@ export class TodoListView {
     const newTodoListItem = document.createElement("li");
     todoList.appendChild(newTodoListItem);
     const newTodoButton = document.createElement("button");
+    newTodoButton.classList.add("add-button");
     newTodoListItem.appendChild(newTodoButton);
     newTodoButton.textContent = "+ Add a new task";
     newTodoButton.addEventListener("click", () => {

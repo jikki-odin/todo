@@ -19,6 +19,7 @@ export class NewProjectView {
     headerText.textContent = "New Project";
 
     const closeButton = document.createElement("img");
+    closeButton.classList.add("logo");
     header.appendChild(closeButton);
     closeButton.src = closeCircle;
     closeButton.addEventListener("click", () => {

@@ -42,11 +42,7 @@ export class AppView {
     // TODO: handle static content here (e.g. nav bar) - add a layer higher
     // so modals don't get removed
     this.projectList.render();
-    if (!!this.projectController.selectedProject) {
-      this.projectDetails.render();
-    } else {
-      this.projectDetails.clear();
-    }
+    this.projectDetails.render();
   }
 
   registerEventHandlers() {
@@ -81,9 +77,9 @@ export class AppView {
     });
 
     document.addEventListener("todoSelected", (event) => {
-      const { id } = event.detail;
+      const { id, button } = event.detail;
       this.todoController.selectTodo(id);
-      this.todoOptionsModal.render();
+      this.todoOptionsModal.render(button);
     });
 
     document.addEventListener("newTodoRequested", () => {

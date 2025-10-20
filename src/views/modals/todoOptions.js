@@ -2,13 +2,21 @@ export class TodoOptionsView {
   constructor(appContainer) {
     this.parentContainer = appContainer;
     this.container = document.createElement("dialog");
+    this.container.classList.add("todo-options");
+    this.isOpen = false;
+
+    this.container.addEventListener("close", () => {
+      this.isOpen = false;
+    });
+
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
-  render() {
+  render(button) {
     this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
 
-    // TODO: figure out the show/hide functionality
+    this.positionNearButton(button);
 
     const viewDetailsButton = document.createElement("button");
     this.container.appendChild(viewDetailsButton);
@@ -29,5 +37,56 @@ export class TodoOptionsView {
     });
 
     this.container.showModal();
+    this.isOpen = true;
+
+    setTimeout(() => {
+      document.addEventListener("click", this.handleOutsideClick);
+    }, 0);
+  }
+
+  positionNearButton(button) {
+    const buttonRect = button.getBoundingClientRect();
+    this.container.style.position = "fixed";
+    this.container.style.margin = "0";
+
+    this.container.style.left = `${buttonRect.left - 120}px`;
+    this.container.style.top = `${buttonRect.top}px`;
+
+    this.adjustForViewport();
+  }
+
+  adjustForViewport() {
+    const rect = this.container.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    if (rect.right > viewportWidth) {
+      this.container.style.left = `${viewportWidth - rect.width - 10}px`;
+    }
+
+    if (rect.bottom > viewportHeight) {
+      this.container.style.top = `${viewportHeight - rect.height - 10}px`;
+    }
+  }
+
+  handleOutsideClick(event) {
+    event.stopPropagation();
+    if (!this.isOpen) {
+      return;
+    }
+
+    if (event.target === this.container) {
+      this.close();
+    }
+  }
+
+  close() {
+    if (!this.isOpen) {
+      return;
+    }
+
+    this.container.close();
+    this.isOpen = false;
+    document.removeEventListener("click", this.handleOutsideClick);
   }
 }
