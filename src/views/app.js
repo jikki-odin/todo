@@ -2,7 +2,7 @@ import { ProjectController, TodoController } from "../controllers";
 import {
   ProjectListView,
   ProjectDetailView,
-  TodoDetailView,
+  TodoEditView,
   TodoOptionsView,
   NewProjectView,
   NewTodoView,
@@ -23,7 +23,7 @@ export class AppView {
       this.projectController,
       this.todoController
     );
-    this.todoDetails = new TodoDetailView(
+    this.todoEdit = new TodoEditView(
       appContainer,
       this.todoController,
       this.projectController
@@ -98,8 +98,8 @@ export class AppView {
       this.projectDetails.render();
     });
 
-    document.addEventListener("todoDetailsRequested", () => {
-      this.todoDetails.render();
+    document.addEventListener("todoEditRequested", () => {
+      this.todoEdit.render();
     });
 
     document.addEventListener("todoDeletionRequested", () => {

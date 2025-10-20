@@ -3,10 +3,20 @@ export class Todo {
     this.id = id;
     this.title = title;
     this.description = description;
-    // TODO: check localization handling
-    this.dueDate = new Date(dueDate);
+    this.dueDate = Todo.createDateOnly(dueDate);
     this.priority = priority;
     this.isComplete = isComplete;
+  }
+
+  static createDateOnly(dateInput) {
+    if (typeof dateInput === "string") {
+      const [year, month, day] = dateInput.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    const date = new Date(dateInput);
+    date.setHours(0, 0, 0, 0);
+    return date;
   }
 
   update(title, description, dueDate, priority) {
@@ -17,7 +27,7 @@ export class Todo {
       this.description = description;
     }
     if (dueDate != this.dueDate) {
-      this.dueDate = dueDate;
+      this.dueDate = Todo.createDateOnly(dueDate);
     }
     if (priority != this.priority) {
       this.priority = priority;

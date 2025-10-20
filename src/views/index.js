@@ -3,6 +3,6 @@ export { NewProjectView } from "./modals";
 export { NewTodoView } from "./modals";
 export { ProjectDetailView } from "./projectDetails.js";
 export { ProjectListView } from "./projectList.js";
-export { TodoDetailView } from "./todoDetails.js";
+export { TodoEditView as TodoDetailView } from "./modals/editTodo.js";
 export { TodoOptionsView } from "./modals";
-export { TodoListView } from "./todoList.js";
+export { TodoEditView } from "./modals";

@@ -1,12 +1,12 @@
 import { format } from "date-fns";
 
-import closeCircle from "../public/icons/close-circle.svg";
+import closeCircle from "../../public/icons/close-circle.svg";
 
-export class TodoDetailView {
+export class TodoEditView {
   constructor(appContainer, todoController, projectController) {
     this.parentContainer = appContainer;
-    this.container = document.createElement("div");
-    this.container.classList.add("todo-details");
+    this.container = document.createElement("dialog");
+    this.container.classList.add("modal", "todo-details");
 
     this.todoController = todoController;
     this.projectController = projectController;
@@ -31,14 +31,12 @@ export class TodoDetailView {
     closeButton.src = closeCircle;
     closeButton.addEventListener("click", () => {
       this.container.replaceChildren();
-      this.parentContainer.removeChild(this.container);
+      this.container.close();
     });
 
     const todoDetailsForm = document.createElement("form");
     this.container.appendChild(todoDetailsForm);
     todoDetailsForm.setAttribute("method", "post");
-
-    // TODO: reformat in separate header
 
     const idInput = document.createElement("input");
     idInput.type = "hidden";
@@ -80,7 +78,6 @@ export class TodoDetailView {
     descriptionInput.required = true;
     descriptionInput.type = "text";
 
-    // TODO: add project dropdown
     const projectElement = document.createElement("div");
     projectElement.classList.add("form-element");
     todoDetailsForm.appendChild(projectElement);
@@ -156,7 +153,7 @@ export class TodoDetailView {
 
     cancelButton.addEventListener("click", () => {
       this.container.replaceChildren();
-      this.parentContainer.removeChild(this.container);
+      this.container.close();
     });
 
     const saveButton = document.createElement("button");
@@ -179,7 +176,9 @@ export class TodoDetailView {
       });
       document.dispatchEvent(createdEvent);
       this.container.replaceChildren();
-      this.parentContainer.removeChild(this.container);
+      this.container.close();
     });
+
+    this.container.showModal();
   }
 }

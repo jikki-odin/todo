@@ -1,5 +1,5 @@
 import trashCan from "../public/icons/trash-can.svg";
-import { TodoListView } from "./todoList.js";
+import { TodoEditView } from "./todoList.js";
 
 export class ProjectDetailView {
   constructor(appContainer, projectController, todoController) {
@@ -10,7 +10,7 @@ export class ProjectDetailView {
     this.projectController = projectController;
     this.todoController = todoController;
 
-    this.todoList = new TodoListView(
+    this.todoList = new TodoEditView(
       this.container,
       this.projectController,
       this.todoController
@@ -18,7 +18,6 @@ export class ProjectDetailView {
   }
 
   render() {
-    // TODO: buttons should be inactive on this when a todo is being edited
     this.parentContainer.appendChild(this.container);
     this.container.replaceChildren();
     const project = this.projectController.selectedProject;

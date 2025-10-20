@@ -14,6 +14,10 @@ export class ProjectController {
     this.selectedProject = this.projects.get(1);
   }
 
+  /**
+   * Loads projects and their associated todos from localStorage
+   * @returns void
+   */
   loadFromStorage() {
     const projectsJSON = localStorage.getItem("projects");
 
@@ -51,6 +55,9 @@ export class ProjectController {
     this.currentId = maxId + 1;
   }
 
+  /**
+   * Saves current project/todo state to localStorage whenever there's a change
+   */
   saveToStorage() {
     const storedProjects = [];
 
@@ -61,7 +68,15 @@ export class ProjectController {
       };
 
       for (const [_, todo] of project.todos) {
-        storedProject.todos.push(todo);
+        const dueDate = todo.dueDate;
+        const storedTodo = {
+          ...todo,
+          dueDate: `${dueDate.getFullYear()}-${
+            dueDate.getMonth() + 1
+          }-${dueDate.getDate()}`,
+        };
+
+        storedProject.todos.push(storedTodo);
       }
 
       storedProjects.push(storedProject);
@@ -93,7 +108,6 @@ export class ProjectController {
    * @param {number} id - The ID of the project to be deleted
    */
   removeProject(id) {
-    // TODO: ensure connected todos get deleted as well
     this.projects.delete(id);
     this.saveToStorage();
   }
@@ -106,17 +120,33 @@ export class ProjectController {
     this.selectedProject = this.projects.get(id);
   }
 
+  /**
+   * Gets todo map associated with project
+   * @param {number} id
+   * @returns Map(number, Todo)
+   */
   getTodos(id) {
     const project = this.projects.get(id);
     return project.todos;
   }
 
+  /**
+   * Adds a given todo to project by project ID
+   * @param {number} id
+   * @param {Todo} todo
+   */
   addTodo(id, todo) {
     const project = this.projects.get(id);
     project.addTodo(todo);
     this.saveToStorage();
   }
 
+  /**
+   * Moves a specified todo from one project to another
+   * @param {number} todoId
+   * @param {number} oldProjectId
+   * @param {number} newProjectId
+   */
   moveTodo(todoId, oldProjectId, newProjectId) {
     const todos = this.getTodos(oldProjectId);
     const todoToMove = todos.get(todoId);
@@ -125,6 +155,11 @@ export class ProjectController {
     this.saveToStorage();
   }
 
+  /**
+   * Removes a given todo from a project
+   * @param {number} id
+   * @param {number} todoId
+   */
   removeTodo(id, todoId) {
     const project = this.projects.get(id);
     project.removeTodo(todoId);

@@ -7,7 +7,6 @@ const todoController = new TodoController();
 
 todoController.loadFromStorage(projectController);
 
-// TODO: reconcile styling w/new structure
 const appContainer = document.querySelector(".main");
 const appView = new AppView(appContainer, projectController, todoController);
 appView.render();

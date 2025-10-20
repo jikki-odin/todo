@@ -20,9 +20,9 @@ export class TodoOptionsView {
 
     const viewDetailsButton = document.createElement("button");
     this.container.appendChild(viewDetailsButton);
-    viewDetailsButton.textContent = "Details";
+    viewDetailsButton.textContent = "Edit";
     viewDetailsButton.addEventListener("click", () => {
-      const event = new CustomEvent("todoDetailsRequested");
+      const event = new CustomEvent("todoEditRequested");
       document.dispatchEvent(event);
       this.container.close();
     });
